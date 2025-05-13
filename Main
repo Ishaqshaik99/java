@@ -1,0 +1,67 @@
+public class Book {
+    private String id, title, author;
+    private boolean isIssued;
+
+    public Book(String id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isIssued = false;
+    }
+
+    public String getId() { return id; }
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+    public boolean isIssued() { return isIssued; }
+    
+    public void issue() { isIssued = true; }
+    public void returnBook() { isIssued = false; }
+
+    @Override
+    public String toString() {
+        return id + " | " + title + " | " + author + " | " + (isIssued ? "Issued" : "Available");
+    }
+}
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Library library = new Library();
+        library.loadFromFile(); // Load saved books
+
+        while (true) {
+            System.out.println("\n1. Add Book\n2. View Books\n3. Issue Book\n4. Return Book\n5. Save & Exit");
+            int choice = sc.nextInt(); sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter ID: ");
+                    String id = sc.nextLine();
+                    System.out.print("Enter Title: ");
+                    String title = sc.nextLine();
+                    System.out.print("Enter Author: ");
+                    String author = sc.nextLine();
+                    library.addBook(new Book(id, title, author));
+                    break;
+
+                case 2: library.viewAllBooks(); break;
+
+                case 3:
+                    System.out.print("Enter ID to issue: ");
+                    library.issueBook(sc.nextLine()); break;
+
+                case 4:
+                    System.out.print("Enter ID to return: ");
+                    library.returnBook(sc.nextLine()); break;
+
+                case 5:
+                    library.saveToFile();
+                    System.out.println("Data saved. Exiting.");
+                    return;
+
+                default: System.out.println("Invalid option.");
+            }
+        }
+    }
+}
