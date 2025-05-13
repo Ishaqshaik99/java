@@ -1,0 +1,68 @@
+import java.util.Scanner;
+
+class Student {
+    String name;
+    int rollNo;
+    int[] marks = new int[3];
+    float average;
+    char grade;
+
+    void inputData(Scanner sc) {
+        System.out.print("Enter name: ");
+        name = sc.nextLine();
+        System.out.print("Enter roll number: ");
+        rollNo = sc.nextInt();
+        System.out.println("Enter marks for 3 subjects:");
+        for (int i = 0; i < 3; i++) {
+            marks[i] = sc.nextInt();
+        }
+        sc.nextLine(); // Consume leftover newline
+        calculateAverageAndGrade();
+    }
+
+    void calculateAverageAndGrade() {
+        int sum = 0;
+        for (int mark : marks) sum += mark;
+        average = sum / 3.0f;
+
+        if (average >= 80)
+            grade = 'A';
+        else if (average >= 60)
+            grade = 'B';
+        else if (average >= 40)
+            grade = 'C';
+        else
+            grade = 'F';
+    }
+
+    void displayData() {
+        System.out.println("\nName: " + name);
+        System.out.println("Roll No: " + rollNo);
+        System.out.println("Average: " + average);
+        System.out.println("Grade: " + grade);
+    }
+}
+
+public class StudentGradeManager {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of students: ");
+        int n = sc.nextInt();
+        sc.nextLine(); // Consume newline
+
+        Student[] students = new Student[n];
+
+        for (int i = 0; i < n; i++) {
+            students[i] = new Student();
+            System.out.println("\nEnter details for Student " + (i + 1));
+            students[i].inputData(sc);
+        }
+
+        System.out.println("\n--- Student Records ---");
+        for (Student s : students) {
+            s.displayData();
+        }
+
+        sc.close();
+    }
+}
